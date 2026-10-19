@@ -2,105 +2,132 @@ import Expense from '../models/Expense.js';
 import mongoose from 'mongoose';
 import { getRequestParams } from '../utils/helpers.js';
 
-export const getExpenses = async (req, res) => {
+export const getExpenses = async (req, res, next) => {
   try {
     const { month, year, userId } = getRequestParams(req);
 
     if (!userId) {
-      return res.status(401).json({ message: 'User ID required' });
+      return res.status(401).json({ message: 'Authentication required' });
     }
-    
-    let query = { userId: new mongoose.Types.ObjectId(userId) };
+
+    // Tenant Isolation: strictly query by authenticated user's ID
+    const query = { userId };
 
     if (month !== 'all' && year !== 'all') {
-      const startDate = new Date(Date.UTC(year, month - 1, 1));
-      const endDate = new Date(Date.UTC(year, month, 0, 23, 59, 59, 999));
+      const numMonth = parseInt(month, 10);
+      const numYear = parseInt(year, 10);
+      const startDate = new Date(Date.UTC(numYear, numMonth - 1, 1));
+      const endDate = new Date(Date.UTC(numYear, numMonth, 0, 23, 59, 59, 999));
       query.date = { $gte: startDate, $lte: endDate };
     }
 
-    const expenses = await Expense.find(query).sort({ date: -1 });
-    res.status(200).json(expenses);
+    const expenses = await Expense.find(query).sort({ date: -1 }).lean();
+    return res.status(200).json(expenses);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
-export const addExpense = async (req, res) => {
+export const addExpense = async (req, res, next) => {
   try {
     const { title, amount, category, date } = req.body;
-    const { userId } = getRequestParams(req);
+    const userId = req.user._id;
 
     if (!userId) {
-      return res.status(401).json({ message: 'User ID required' });
+      return res.status(401).json({ message: 'Authentication required' });
     }
-    
+
+    // Validate date input if provided
+    let expenseDate = new Date();
+    if (date) {
+      const parsedDate = new Date(date);
+      if (!isNaN(parsedDate.getTime())) {
+        expenseDate = parsedDate;
+      }
+    }
+
+    // Object-level authorization: always assign to verified authenticated user
     const expense = await Expense.create({
-      title,
-      amount,
-      category,
-      date: date || new Date(),
-      userId
+      title: String(title).trim(),
+      amount: parseFloat(amount),
+      category: String(category).trim(),
+      date: expenseDate,
+      userId,
     });
-    res.status(201).json(expense);
+
+    return res.status(201).json(expense);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    next(error);
   }
 };
 
-export const deleteExpense = async (req, res) => {
+export const deleteExpense = async (req, res, next) => {
   try {
-    const { userId } = getRequestParams(req);
+    const userId = req.user._id;
+    const { id } = req.params;
 
     if (!userId) {
-      return res.status(401).json({ message: 'User ID required' });
+      return res.status(401).json({ message: 'Authentication required' });
     }
-    
-    const expense = await Expense.findOne({ _id: req.params.id, userId: new mongoose.Types.ObjectId(userId) });
-    
+
+    // Validate ObjectId format before querying (prevents CastError crash)
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid expense ID format' });
+    }
+
+    // BOLA/IDOR Defense: query strictly includes userId
+    const expense = await Expense.findOne({ _id: id, userId });
+
     if (!expense) {
-      return res.status(404).json({ message: 'Expense not found' });
+      return res.status(404).json({ message: 'Expense not found or unauthorized' });
     }
+
     await expense.deleteOne();
-    res.status(200).json({ id: req.params.id });
+    return res.status(200).json({ id, message: 'Expense deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
-export const getExpenseStats = async (req, res) => {
+export const getExpenseStats = async (req, res, next) => {
   try {
     const { month, year, userId } = getRequestParams(req);
 
     if (!userId) {
-      return res.status(401).json({ message: 'User ID required' });
+      return res.status(401).json({ message: 'Authentication required' });
     }
-    
-    const startDate = new Date(Date.UTC(year, month - 1, 1));
-    const endDate = new Date(Date.UTC(year, month, 0, 23, 59, 59, 999));
 
+    const numMonth = month === 'all' ? new Date().getMonth() + 1 : parseInt(month, 10);
+    const numYear = year === 'all' ? new Date().getFullYear() : parseInt(year, 10);
+
+    const startDate = new Date(Date.UTC(numYear, numMonth - 1, 1));
+    const endDate = new Date(Date.UTC(numYear, numMonth, 0, 23, 59, 59, 999));
+
+    // Tenant Isolation: strictly match authenticated userId in aggregation
     const stats = await Expense.aggregate([
       {
         $match: {
           userId: new mongoose.Types.ObjectId(userId),
-          date: { $gte: startDate, $lte: endDate }
-        }
+          date: { $gte: startDate, $lte: endDate },
+        },
       },
       {
         $group: {
           _id: '$category',
-          totalAmount: { $sum: '$amount' }
-        }
+          totalAmount: { $sum: '$amount' },
+        },
       },
       {
         $project: {
           name: '$_id',
           value: '$totalAmount',
-          _id: 0
-        }
-      }
+          _id: 0,
+        },
+      },
     ]);
-    res.status(200).json(stats);
+
+    return res.status(200).json(stats);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
