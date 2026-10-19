@@ -143,7 +143,7 @@ const ExpenseForm = ({ onAdd, onBudgetUpdate, currentBudget, totalSpent, categor
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
       {/* Record Expense Section */}
-      <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm">
+      <div className="rounded-2xl border border-border bg-surface p-6 shadow-xs">
         <h3 className="mb-6 text-lg font-bold text-foreground">Record Expense</h3>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
@@ -154,7 +154,7 @@ const ExpenseForm = ({ onAdd, onBudgetUpdate, currentBudget, totalSpent, categor
               </div>
               <input 
                 type="text"
-                className="w-full rounded-xl border border-border bg-surface-alt py-2.5 pl-10 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:bg-surface focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all" 
+                className="w-full rounded-xl border border-border bg-surface-alt py-2.5 pl-10 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:bg-surface focus:outline-hidden focus:ring-4 focus:ring-primary/10 transition-all" 
                 placeholder="Rent, Groceries..." 
                 value={title} 
                 onChange={(e) => setTitle(e.target.value)}
@@ -174,7 +174,7 @@ const ExpenseForm = ({ onAdd, onBudgetUpdate, currentBudget, totalSpent, categor
                   type="number"
                   min="0"
                   step="0.01"
-                  className="w-full rounded-xl border border-border bg-surface-alt py-2.5 pl-10 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:bg-surface focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all" 
+                  className="w-full rounded-xl border border-border bg-surface-alt py-2.5 pl-10 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:bg-surface focus:outline-hidden focus:ring-4 focus:ring-primary/10 transition-all" 
                   placeholder="0.00" 
                   value={amount} 
                   onChange={(e) => setAmount(e.target.value)}
@@ -189,7 +189,7 @@ const ExpenseForm = ({ onAdd, onBudgetUpdate, currentBudget, totalSpent, categor
                   <Layers size={18} className="text-muted-foreground" />
                 </div>
                 <select 
-                  className="w-full rounded-xl border border-border bg-surface-alt py-2.5 pl-10 pr-3 text-sm text-foreground focus:border-primary focus:bg-surface focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all appearance-none cursor-pointer" 
+                  className="w-full rounded-xl border border-border bg-surface-alt py-2.5 pl-10 pr-3 text-sm text-foreground focus:border-primary focus:bg-surface focus:outline-hidden focus:ring-4 focus:ring-primary/10 transition-all appearance-none cursor-pointer" 
                   value={category} 
                   onChange={(e) => setCategory(e.target.value)}
                 >
@@ -210,7 +210,7 @@ const ExpenseForm = ({ onAdd, onBudgetUpdate, currentBudget, totalSpent, categor
               id="recurring" 
               checked={isRecurring} 
               onChange={(e) => setIsRecurring(e.target.checked)}
-              className="w-4 h-4 text-primary bg-surface border-border rounded focus:ring-primary focus:ring-2"
+              className="w-4 h-4 text-primary bg-surface border-border rounded-sm focus:ring-primary focus:ring-2"
             />
             <label htmlFor="recurring" className="text-sm font-medium text-foreground cursor-pointer">
               🔁 Mark as Recurring
@@ -218,7 +218,7 @@ const ExpenseForm = ({ onAdd, onBudgetUpdate, currentBudget, totalSpent, categor
           </div>
           
           <div className="mt-2 flex gap-3">
-            <button type="submit" className="flex flex-[2] items-center justify-center gap-2 rounded-xl bg-primary py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-hover focus:outline-none focus:ring-4 focus:ring-primary/20 transition-all">
+            <button type="submit" className="flex flex-2 items-center justify-center gap-2 rounded-xl bg-primary py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-primary-hover focus:outline-hidden focus:ring-4 focus:ring-primary/20 transition-all">
               <PlusCircle size={18} /> Record
             </button>
             <button type="button" onClick={handleClear} className="flex flex-1 items-center justify-center rounded-xl border border-border bg-surface py-2.5 text-sm font-semibold text-muted-foreground hover:bg-surface-alt hover:text-foreground transition-all">
@@ -229,7 +229,7 @@ const ExpenseForm = ({ onAdd, onBudgetUpdate, currentBudget, totalSpent, categor
       </div>
 
       {/* Wallet Control Section */}
-      <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm">
+      <div className="rounded-2xl border border-border bg-surface p-6 shadow-xs">
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-lg font-bold text-foreground">Wallet Control</h3>
           <span className="text-sm font-bold text-primary bg-primary/10 px-3 py-1 rounded-full">
@@ -247,7 +247,7 @@ const ExpenseForm = ({ onAdd, onBudgetUpdate, currentBudget, totalSpent, categor
                 type="number"
                 min="0"
                 placeholder="e.g. 1000"
-                className="w-full rounded-xl border border-border bg-surface-alt py-2.5 pl-10 pr-3 text-sm text-foreground focus:border-primary focus:bg-surface focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all" 
+                className="w-full rounded-xl border border-border bg-surface-alt py-2.5 pl-10 pr-3 text-sm text-foreground focus:border-primary focus:bg-surface focus:outline-hidden focus:ring-4 focus:ring-primary/10 transition-all" 
                 value={budgetAmount} 
                 onChange={(e) => setBudgetAmount(e.target.value)}
               />
@@ -258,14 +258,14 @@ const ExpenseForm = ({ onAdd, onBudgetUpdate, currentBudget, totalSpent, categor
             <button 
               type="button" 
               onClick={() => handleWalletAction('add')}
-              className="flex items-center justify-center gap-2 rounded-xl bg-green-500/10 text-green-600 dark:text-green-500 hover:bg-green-500/20 py-2.5 text-sm font-semibold transition-all border border-green-500/20 outline-none"
+              className="flex items-center justify-center gap-2 rounded-xl bg-green-500/10 text-green-600 dark:text-green-500 hover:bg-green-500/20 py-2.5 text-sm font-semibold transition-all border border-green-500/20 outline-hidden"
             >
                ➕ Add Funds
             </button>
             <button 
               type="button" 
               onClick={() => handleWalletAction('subtract')}
-              className="flex items-center justify-center gap-2 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-500 hover:bg-orange-500/20 py-2.5 text-sm font-semibold transition-all border border-orange-500/20 outline-none"
+              className="flex items-center justify-center gap-2 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-500 hover:bg-orange-500/20 py-2.5 text-sm font-semibold transition-all border border-orange-500/20 outline-hidden"
             >
                ➖ Reduce
             </button>
@@ -277,7 +277,7 @@ const ExpenseForm = ({ onAdd, onBudgetUpdate, currentBudget, totalSpent, categor
               <button 
                 type="button" 
                 onClick={() => handleWalletAction('set')}
-                className="flex-1 rounded-xl border border-border bg-surface py-2 text-sm font-semibold text-foreground shadow-sm hover:bg-surface-alt transition-all outline-none"
+                className="flex-1 rounded-xl border border-border bg-surface py-2 text-sm font-semibold text-foreground shadow-xs hover:bg-surface-alt transition-all outline-hidden"
               >
                 Set Allocation
               </button>
@@ -286,7 +286,7 @@ const ExpenseForm = ({ onAdd, onBudgetUpdate, currentBudget, totalSpent, categor
                   type="number"
                   min="0"
                   placeholder="Alert At"
-                  className="w-full rounded-xl border border-border bg-surface-alt py-2 px-3 text-sm text-foreground focus:border-primary focus:outline-none" 
+                  className="w-full rounded-xl border border-border bg-surface-alt py-2 px-3 text-sm text-foreground focus:border-primary focus:outline-hidden" 
                   value={threshold} 
                   onChange={(e) => setThreshold(e.target.value)}
                 />

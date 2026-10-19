@@ -50,7 +50,7 @@ const CategoryBudgets = ({ categoryStats }) => {
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm flex flex-col mt-8">
+    <div className="rounded-2xl border border-border bg-surface p-6 shadow-xs flex flex-col mt-8">
       <div className="flex items-center justify-between cursor-pointer" onClick={() => setExpanded(!expanded)}>
         <div className="flex items-center gap-2">
           <Target size={20} className="text-primary" />
@@ -83,7 +83,7 @@ const CategoryBudgets = ({ categoryStats }) => {
                     placeholder="No Limit"
                     value={limit || ''}
                     onChange={(e) => handleSetBudget(cat, e.target.value)}
-                    className="w-28 text-right px-2 py-1.5 text-sm bg-surface-alt border border-border rounded-lg focus:outline-none focus:border-primary text-foreground"
+                    className="w-28 text-right px-2 py-1.5 text-sm bg-surface-alt border border-border rounded-lg focus:outline-hidden focus:border-primary text-foreground"
                   />
                 </div>
                 {limit ? (

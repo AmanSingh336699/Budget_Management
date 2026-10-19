@@ -8,11 +8,11 @@ const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/60">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 shadow-sm items-center justify-center rounded-xl bg-primary text-white">
+            <div className="flex h-10 w-10 shadow-xs items-center justify-center rounded-xl bg-primary text-white">
               <LayoutDashboard size={20} />
             </div>
             <div className="hidden sm:block">
@@ -24,7 +24,7 @@ const Navbar = () => {
           <div className="flex items-center gap-4">
             <button
               onClick={toggleTheme}
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-surface-alt text-foreground hover:bg-border transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-surface-alt text-foreground hover:bg-border transition-colors outline-hidden focus-visible:ring-2 focus-visible:ring-primary"
               aria-label="Toggle theme"
             >
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
@@ -41,7 +41,7 @@ const Navbar = () => {
                 </div>
                 <button
                   onClick={logout}
-                  className="flex h-9 w-9 items-center justify-center rounded-full text-gray-500 hover:bg-danger/10 hover:text-danger hover:ring-1 hover:ring-danger/20 transition-all outline-none focus-visible:ring-2 focus-visible:ring-danger"
+                  className="flex h-9 w-9 items-center justify-center rounded-full text-gray-500 hover:bg-danger/10 hover:text-danger hover:ring-1 hover:ring-danger/20 transition-all outline-hidden focus-visible:ring-2 focus-visible:ring-danger"
                   aria-label="Logout"
                   title="Logout"
                 >

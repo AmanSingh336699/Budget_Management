@@ -172,7 +172,7 @@ const Dashboard = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <h2 className="text-2xl font-bold tracking-tight text-foreground">Overview</h2>
           
-          <div className="flex items-center gap-3 bg-surface-alt p-1.5 rounded-xl border border-border shadow-sm">
+          <div className="flex items-center gap-3 bg-surface-alt p-1.5 rounded-xl border border-border shadow-xs">
             <div className="flex items-center pl-3 text-primary">
               {isUpdating ? <RefreshCw className="animate-spin" size={18} /> : <Calendar size={18} />}
             </div>
@@ -180,7 +180,7 @@ const Dashboard = () => {
             <div className="flex h-6 items-center border-l border-border mx-1"></div>
             
             <select 
-              className="bg-transparent font-medium text-foreground text-sm py-1.5 px-2 outline-none cursor-pointer appearance-none min-w-[100px]"
+              className="bg-transparent font-medium text-foreground text-sm py-1.5 px-2 outline-hidden cursor-pointer appearance-none min-w-[100px]"
               value={currentMonth} 
               onChange={(e) => setCurrentMonth(parseInt(e.target.value))}
               disabled={loading}
@@ -189,7 +189,7 @@ const Dashboard = () => {
             </select>
             
             <select 
-              className="bg-transparent font-medium text-foreground text-sm py-1.5 pr-4 outline-none cursor-pointer appearance-none"
+              className="bg-transparent font-medium text-foreground text-sm py-1.5 pr-4 outline-hidden cursor-pointer appearance-none"
               value={currentYear} 
               onChange={(e) => setCurrentYear(parseInt(e.target.value))}
               disabled={loading}
@@ -204,7 +204,7 @@ const Dashboard = () => {
             <AlertTriangle className="h-12 w-12 text-red-500 mb-4" />
             <h3 className="text-lg font-bold text-red-700 dark:text-red-400">Connection Error</h3>
             <p className="text-red-600 dark:text-red-300 mt-2 mb-6 max-w-md">We couldn't reach the server. Please check your internet connection or try again.</p>
-            <button onClick={() => fetchData()} className="rounded-xl bg-red-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 transition-colors">
+            <button onClick={() => fetchData()} className="rounded-xl bg-red-600 px-6 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-red-500 transition-colors">
               Try Again
             </button>
           </div>

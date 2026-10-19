@@ -96,7 +96,7 @@ function Auth() {
             <button
               onClick={() => toggleMode('login')}
               className={`w-1/2 rounded-lg py-2 text-sm font-semibold transition-all ${
-                isLogin ? 'bg-surface text-foreground shadow-sm ring-1 ring-border' : 'text-gray-500 hover:text-foreground'
+                isLogin ? 'bg-surface text-foreground shadow-xs ring-1 ring-border' : 'text-gray-500 hover:text-foreground'
               }`}
             >
               Log In
@@ -104,7 +104,7 @@ function Auth() {
             <button
               onClick={() => toggleMode('signup')}
               className={`w-1/2 rounded-lg py-2 text-sm font-semibold transition-all ${
-                !isLogin ? 'bg-surface text-foreground shadow-sm ring-1 ring-border' : 'text-gray-500 hover:text-foreground'
+                !isLogin ? 'bg-surface text-foreground shadow-xs ring-1 ring-border' : 'text-gray-500 hover:text-foreground'
               }`}
             >
               Sign Up
@@ -131,7 +131,7 @@ function Auth() {
                   <input
                     type="text"
                     id="name"
-                    className="block w-full rounded-xl border border-border bg-surface-alt py-2.5 pl-10 pr-3 text-sm text-foreground placeholder:text-gray-400 focus:border-primary focus:bg-surface focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all"
+                    className="block w-full rounded-xl border border-border bg-surface-alt py-2.5 pl-10 pr-3 text-sm text-foreground placeholder:text-gray-400 focus:border-primary focus:bg-surface focus:outline-hidden focus:ring-4 focus:ring-primary/10 transition-all"
                     placeholder="John Doe"
                     value={formData.name}
                     onChange={handleChange}
@@ -152,7 +152,7 @@ function Auth() {
                 <input
                   type="email"
                   id="email"
-                  className="block w-full rounded-xl border border-border bg-surface-alt py-2.5 pl-10 pr-3 text-sm text-foreground placeholder:text-gray-400 focus:border-primary focus:bg-surface focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all"
+                  className="block w-full rounded-xl border border-border bg-surface-alt py-2.5 pl-10 pr-3 text-sm text-foreground placeholder:text-gray-400 focus:border-primary focus:bg-surface focus:outline-hidden focus:ring-4 focus:ring-primary/10 transition-all"
                   placeholder="you@example.com"
                   value={formData.email}
                   onChange={handleChange}
@@ -172,7 +172,7 @@ function Auth() {
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="password"
-                  className="block w-full rounded-xl border border-border bg-surface-alt py-2.5 pl-10 pr-10 text-sm text-foreground placeholder:text-gray-400 focus:border-primary focus:bg-surface focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all"
+                  className="block w-full rounded-xl border border-border bg-surface-alt py-2.5 pl-10 pr-10 text-sm text-foreground placeholder:text-gray-400 focus:border-primary focus:bg-surface focus:outline-hidden focus:ring-4 focus:ring-primary/10 transition-all"
                   placeholder="••••••••"
                   value={formData.password}
                   onChange={handleChange}
@@ -197,7 +197,7 @@ function Auth() {
             <button
               type="submit"
               disabled={loading}
-              className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-semibold text-white shadow-sm hover:bg-primary-hover focus:outline-none focus:ring-4 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-70 transition-all"
+              className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-semibold text-white shadow-xs hover:bg-primary-hover focus:outline-hidden focus:ring-4 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-70 transition-all"
             >
               {loading ? (
                 <div className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white"></div>

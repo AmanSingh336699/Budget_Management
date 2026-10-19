@@ -92,7 +92,7 @@ const RecentExpenses = ({ expenses, onDelete, loading }) => {
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm flex flex-col h-full min-h-[500px]">
+    <div className="rounded-2xl border border-border bg-surface p-6 shadow-xs flex flex-col h-full min-h-[500px]">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <h3 className="text-lg font-bold text-foreground">Transaction History</h3>
         <button 
@@ -111,7 +111,7 @@ const RecentExpenses = ({ expenses, onDelete, loading }) => {
             placeholder="Search transactions..." 
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 bg-surface border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground placeholder:text-muted-foreground"
+            className="w-full pl-9 pr-3 py-2 bg-surface border border-border rounded-lg text-sm focus:outline-hidden focus:ring-2 focus:ring-primary/50 text-foreground placeholder:text-muted-foreground"
           />
         </div>
         <div className="flex flex-col sm:flex-row gap-3">
@@ -120,7 +120,7 @@ const RecentExpenses = ({ expenses, onDelete, loading }) => {
             <select 
               value={category}
               onChange={e => setCategory(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 bg-surface border border-border rounded-lg text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
+              className="w-full pl-9 pr-3 py-2 bg-surface border border-border rounded-lg text-sm appearance-none focus:outline-hidden focus:ring-2 focus:ring-primary/50 text-foreground"
             >
               <option value="All">All Categories</option>
               <option value="Food">Food</option>
@@ -137,7 +137,7 @@ const RecentExpenses = ({ expenses, onDelete, loading }) => {
             <select 
               value={dateRange}
               onChange={e => setDateRange(e.target.value)}
-              className="w-full px-3 py-2 bg-surface border border-border rounded-lg text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground"
+              className="w-full px-3 py-2 bg-surface border border-border rounded-lg text-sm appearance-none focus:outline-hidden focus:ring-2 focus:ring-primary/50 text-foreground"
             >
               <option value="This Month">This Month</option>
               <option value="Last 3 Months">Last 3 Months</option>
@@ -160,7 +160,7 @@ const RecentExpenses = ({ expenses, onDelete, loading }) => {
             {filteredExpenses.map((expense) => (
               <div 
                 key={expense._id} 
-                className="group flex items-center justify-between rounded-xl border border-border bg-surface-alt p-4 transition-all hover:bg-surface hover:shadow-sm"
+                className="group flex items-center justify-between rounded-xl border border-border bg-surface-alt p-4 transition-all hover:bg-surface hover:shadow-xs"
               >
                 <div className="flex items-center gap-4">
                   <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${CategoryBg({ category: expense.category })}`}>
@@ -179,7 +179,7 @@ const RecentExpenses = ({ expenses, onDelete, loading }) => {
                   </span>
                   <button 
                     onClick={() => onDelete(expense._id)}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground opacity-0 transition-all hover:bg-red-50 hover:text-red-600 focus:opacity-100 group-hover:opacity-100 dark:hover:bg-red-500/10 dark:hover:text-red-400 outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground opacity-0 transition-all hover:bg-red-50 hover:text-red-600 focus:opacity-100 group-hover:opacity-100 dark:hover:bg-red-500/10 dark:hover:text-red-400 outline-hidden focus-visible:ring-2 focus-visible:ring-red-500"
                     aria-label="Delete"
                     title="Delete"
                   >
@@ -191,7 +191,7 @@ const RecentExpenses = ({ expenses, onDelete, loading }) => {
           </div>
         ) : (
           <div className="flex h-full min-h-[250px] flex-col items-center justify-center rounded-xl border border-dashed border-border bg-surface-alt/50 p-8 text-center">
-            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-surface shadow-sm ring-1 ring-border">
+            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-surface shadow-xs ring-1 ring-border">
               <Receipt size={28} className="text-muted-foreground" />
             </div>
             {expenses.length === 0 ? (

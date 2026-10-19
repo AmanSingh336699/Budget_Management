@@ -24,7 +24,7 @@ const CategoryChart = ({ data, loading }) => {
   const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   return (
-    <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm flex flex-col h-full min-h-[400px]">
+    <div className="rounded-2xl border border-border bg-surface p-6 shadow-xs flex flex-col h-full min-h-[400px]">
       <h3 className="mb-6 text-lg font-bold text-foreground">Spending Distribution</h3>
       
       <div className="flex-1 w-full relative">

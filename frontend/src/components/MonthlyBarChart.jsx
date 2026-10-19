@@ -67,7 +67,7 @@ const MonthlyBarChart = ({ allExpenses, loading }) => {
   const isAllZero = chartData.every(d => d.total === 0);
 
   return (
-    <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm flex flex-col h-full min-h-[400px] relative">
+    <div className="rounded-2xl border border-border bg-surface p-6 shadow-xs flex flex-col h-full min-h-[400px] relative">
       <h3 className="mb-6 text-lg font-bold text-foreground">6-Month Trend</h3>
       
       <div className="flex-1 w-full relative">
@@ -110,7 +110,7 @@ const MonthlyBarChart = ({ allExpenses, loading }) => {
         
         {!loading && chartData.length > 0 && isAllZero && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-             <p className="text-sm font-medium text-muted-foreground bg-surface/80 px-4 py-2 rounded-lg backdrop-blur-sm">Add transactions to see trends.</p>
+             <p className="text-sm font-medium text-muted-foreground bg-surface/80 px-4 py-2 rounded-lg backdrop-blur-xs">Add transactions to see trends.</p>
           </div>
         )}
       </div>

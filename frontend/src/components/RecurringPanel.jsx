@@ -41,7 +41,7 @@ const RecurringPanel = () => {
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm flex flex-col mt-8">
+    <div className="rounded-2xl border border-border bg-surface p-6 shadow-xs flex flex-col mt-8">
       <div className="flex items-center gap-2 mb-6">
         <Repeat size={20} className="text-primary" />
         <h3 className="text-lg font-bold text-foreground">Recurring Expenses</h3>
@@ -52,7 +52,7 @@ const RecurringPanel = () => {
       ) : (
         <div className="max-h-64 overflow-y-auto pr-2 space-y-2">
           {recurring.map(item => (
-            <div key={item.id} className="flex items-center justify-between p-3 border border-border rounded-xl bg-surface-alt hover:shadow-sm transition-all">
+            <div key={item.id} className="flex items-center justify-between p-3 border border-border rounded-xl bg-surface-alt hover:shadow-xs transition-all">
               <div className="min-w-0 pr-4">
                 <p className="text-sm font-bold text-foreground truncate">{item.title}</p>
                 <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mt-1">{item.category} • Adds on 1st</p>

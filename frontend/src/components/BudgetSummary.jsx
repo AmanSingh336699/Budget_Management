@@ -36,7 +36,7 @@ const BudgetSummary = ({ totalBudget, spent, savings, threshold, onConfirmAlert,
           {!isOverBudget && (
             <button 
               onClick={onConfirmAlert}
-              className="shrink-0 rounded-lg bg-amber-600 dark:bg-amber-500 px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-amber-700 dark:hover:bg-amber-600 transition-colors focus:ring-2 focus:ring-amber-500 focus:outline-none"
+              className="shrink-0 rounded-lg bg-amber-600 dark:bg-amber-500 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-amber-700 dark:hover:bg-amber-600 transition-colors focus:ring-2 focus:ring-amber-500 focus:outline-hidden"
             >
               Add ₹1,000
             </button>
@@ -46,7 +46,7 @@ const BudgetSummary = ({ totalBudget, spent, savings, threshold, onConfirmAlert,
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:gap-6">
         {/* Total Budget Card */}
-        <div className="flex items-center gap-4 rounded-2xl border border-border bg-surface p-6 shadow-sm transition-shadow hover:shadow-md dark:hover:shadow-none dark:hover:bg-surface-alt">
+        <div className="flex items-center gap-4 rounded-2xl border border-border bg-surface p-6 shadow-xs transition-shadow hover:shadow-md dark:hover:shadow-none dark:hover:bg-surface-alt">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
             <Wallet size={24} />
           </div>
@@ -57,7 +57,7 @@ const BudgetSummary = ({ totalBudget, spent, savings, threshold, onConfirmAlert,
         </div>
 
         {/* Total Spent Card */}
-        <div className="flex items-center gap-4 rounded-2xl border border-border bg-surface p-6 shadow-sm transition-shadow hover:shadow-md dark:hover:shadow-none dark:hover:bg-surface-alt">
+        <div className="flex items-center gap-4 rounded-2xl border border-border bg-surface p-6 shadow-xs transition-shadow hover:shadow-md dark:hover:shadow-none dark:hover:bg-surface-alt">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400">
             <TrendingDown size={24} />
           </div>
@@ -70,7 +70,7 @@ const BudgetSummary = ({ totalBudget, spent, savings, threshold, onConfirmAlert,
         </div>
 
         {/* Monthly Savings Card */}
-        <div className="flex items-center gap-4 rounded-2xl border border-border bg-surface p-6 shadow-sm transition-shadow hover:shadow-md dark:hover:shadow-none dark:hover:bg-surface-alt">
+        <div className="flex items-center gap-4 rounded-2xl border border-border bg-surface p-6 shadow-xs transition-shadow hover:shadow-md dark:hover:shadow-none dark:hover:bg-surface-alt">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-green-50 text-green-600 dark:bg-green-500/10 dark:text-green-400">
             <DollarSign size={24} />
           </div>
