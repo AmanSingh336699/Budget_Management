@@ -19,6 +19,11 @@ export const getExpenses = async (req, res, next) => {
       const startDate = new Date(Date.UTC(numYear, numMonth - 1, 1));
       const endDate = new Date(Date.UTC(numYear, numMonth, 0, 23, 59, 59, 999));
       query.date = { $gte: startDate, $lte: endDate };
+    } else if (month === 'all' && year !== 'all') {
+      const numYear = parseInt(year, 10);
+      const startDate = new Date(Date.UTC(numYear, 0, 1));
+      const endDate = new Date(Date.UTC(numYear, 11, 31, 23, 59, 59, 999));
+      query.date = { $gte: startDate, $lte: endDate };
     }
 
     const expenses = await Expense.find(query).sort({ date: -1 }).lean();
@@ -46,10 +51,13 @@ export const addExpense = async (req, res, next) => {
       }
     }
 
+    // Precision rounding to 2 decimal places to avoid floating point bugs
+    const parsedAmount = Math.round((parseFloat(amount) || 0) * 100) / 100;
+
     // Object-level authorization: always assign to verified authenticated user
     const expense = await Expense.create({
       title: String(title).trim(),
-      amount: parseFloat(amount),
+      amount: parsedAmount,
       category: String(category).trim(),
       date: expenseDate,
       userId,
@@ -97,20 +105,26 @@ export const getExpenseStats = async (req, res, next) => {
       return res.status(401).json({ message: 'Authentication required' });
     }
 
-    const numMonth = month === 'all' ? new Date().getMonth() + 1 : parseInt(month, 10);
-    const numYear = year === 'all' ? new Date().getFullYear() : parseInt(year, 10);
+    const matchQuery = {
+      userId: new mongoose.Types.ObjectId(userId),
+    };
 
-    const startDate = new Date(Date.UTC(numYear, numMonth - 1, 1));
-    const endDate = new Date(Date.UTC(numYear, numMonth, 0, 23, 59, 59, 999));
+    if (month !== 'all' && year !== 'all') {
+      const numMonth = parseInt(month, 10);
+      const numYear = parseInt(year, 10);
+      const startDate = new Date(Date.UTC(numYear, numMonth - 1, 1));
+      const endDate = new Date(Date.UTC(numYear, numMonth, 0, 23, 59, 59, 999));
+      matchQuery.date = { $gte: startDate, $lte: endDate };
+    } else if (month === 'all' && year !== 'all') {
+      const numYear = parseInt(year, 10);
+      const startDate = new Date(Date.UTC(numYear, 0, 1));
+      const endDate = new Date(Date.UTC(numYear, 11, 31, 23, 59, 59, 999));
+      matchQuery.date = { $gte: startDate, $lte: endDate };
+    }
 
     // Tenant Isolation: strictly match authenticated userId in aggregation
     const stats = await Expense.aggregate([
-      {
-        $match: {
-          userId: new mongoose.Types.ObjectId(userId),
-          date: { $gte: startDate, $lte: endDate },
-        },
-      },
+      { $match: matchQuery },
       {
         $group: {
           _id: '$category',
@@ -120,10 +134,11 @@ export const getExpenseStats = async (req, res, next) => {
       {
         $project: {
           name: '$_id',
-          value: '$totalAmount',
+          value: { $round: ['$totalAmount', 2] },
           _id: 0,
         },
       },
+      { $sort: { value: -1 } }
     ]);
 
     return res.status(200).json(stats);

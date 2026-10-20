@@ -113,8 +113,8 @@ export const validateUpdateBudget = [
     .withMessage('Budget amount must be a number greater than or equal to 0'),
   body('threshold')
     .optional()
-    .isFloat({ min: 0, max: 100 })
-    .withMessage('Threshold must be a percentage between 0 and 100'),
+    .isFloat({ min: 0, max: 1000000000 })
+    .withMessage('Threshold must be a number greater than or equal to 0'),
   body('month')
     .optional()
     .isInt({ min: 1, max: 12 })

@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { authService } from '../services/api';
-import { User, Mail, Lock, Eye, EyeOff, LayoutDashboard, ArrowRight, AlertCircle } from 'lucide-react';
+import { User, Mail, Lock, Eye, EyeOff, LayoutDashboard, ArrowRight, AlertCircle, CheckCircle } from 'lucide-react';
 
 function Auth() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { login: authLogin, register: authRegister, isAuthenticated } = useAuth();
+  const { login: authLogin, isAuthenticated } = useAuth();
 
   const [isLogin, setIsLogin] = useState(location.pathname === '/login');
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(location.state?.successMessage || '');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -24,9 +25,15 @@ function Auth() {
   useEffect(() => {
     setIsLogin(location.pathname === '/login' || location.pathname === '/');
     setError('');
-  }, [location.pathname]);
+    if (location.state?.successMessage) {
+      setSuccess(location.state.successMessage);
+    }
+  }, [location.pathname, location.state]);
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.id]: e.target.value });
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+    if (error) setError('');
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,15 +43,24 @@ function Auth() {
       if (isLogin) {
         const response = await authService.login({ email: formData.email, password: formData.password });
         authLogin(response.data);
+        const from = location.state?.from?.pathname || '/';
+        navigate(from, { replace: true });
       } else {
         if (formData.password.length < 6) throw new Error('Password must be at least 6 characters.');
-        const response = await authService.register(formData);
-        authRegister(response.data);
+        await authService.register(formData);
+        const registeredEmail = formData.email;
+        setFormData({ name: '', email: registeredEmail, password: '' });
+        setSuccess('Registration successful! Please log in with your credentials.');
+        navigate('/login', {
+          replace: true,
+          state: {
+            successMessage: 'Registration successful! Please log in with your credentials.'
+          }
+        });
       }
-      const from = location.state?.from?.pathname || '/';
-      navigate(from, { replace: true });
     } catch (err) {
       setError(err.response?.data?.message || err.message || 'Authentication failed');
+      setSuccess('');
     } finally {
       setLoading(false);
     }
@@ -52,8 +68,10 @@ function Auth() {
 
   const toggleMode = (mode) => {
     if ((mode === 'login' && isLogin) || (mode === 'signup' && !isLogin)) return;
+    setError('');
+    setSuccess('');
     setIsLogin(mode === 'login');
-    navigate(mode === 'login' ? '/login' : '/signup');
+    navigate(mode === 'login' ? '/login' : '/signup', { state: {} });
   };
 
   return (
@@ -115,6 +133,13 @@ function Auth() {
             <div className="mb-6 flex items-center gap-3 rounded-xl bg-red-50 p-4 text-sm font-medium text-red-800 dark:bg-red-500/10 dark:text-red-400">
               <AlertCircle size={18} className="shrink-0" />
               <span>{error}</span>
+            </div>
+          )}
+
+          {success && (
+            <div className="mb-6 flex items-center gap-3 rounded-xl bg-emerald-50 p-4 text-sm font-medium text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20">
+              <CheckCircle size={18} className="shrink-0 text-emerald-600 dark:text-emerald-400" />
+              <span>{success}</span>
             </div>
           )}
 

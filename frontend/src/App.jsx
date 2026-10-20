@@ -21,21 +21,30 @@ function ProtectedRoute({ children }) {
 }
 
 function AppContent() {
-  const [showSplash, setShowSplash] = useState(true);
   const { isAuthenticated } = useAuth();
+  const [showSplash, setShowSplash] = useState(() => {
+    if (!isAuthenticated) return false;
+    try {
+      return !sessionStorage.getItem('budget_splash_shown');
+    } catch {
+      return false;
+    }
+  });
 
   useEffect(() => {
-     if (!isAuthenticated) {
-      setShowSplash(false);
-      return;
-    }
+    if (!showSplash) return;
 
     const timer = setTimeout(() => {
       setShowSplash(false);
-    }, 3200);
+      try {
+        sessionStorage.setItem('budget_splash_shown', 'true');
+      } catch {
+        // Ignore storage errors (e.g. private mode or disabled storage)
+      }
+    }, 1100);
 
     return () => clearTimeout(timer);
-  }, [isAuthenticated]);
+  }, [showSplash]);
 
   return (
     <div className="app">

@@ -4,7 +4,7 @@ import { LayoutDashboard } from 'lucide-react';
 const SplashScreen = ({ isVisible }) => {
   return (
     <div 
-      className={`fixed inset-0 z-10000 flex flex-col items-center justify-center bg-background transition-opacity duration-1000 ease-in-out ${
+      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background transition-opacity duration-700 ease-in-out ${
         !isVisible ? 'pointer-events-none opacity-0' : 'opacity-100'
       }`}
     >
